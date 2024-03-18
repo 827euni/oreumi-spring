@@ -17,4 +17,5 @@ public class ArticleResponse {
         title = article.getTitle();
         content = article.getContent();
     }
+
 }
