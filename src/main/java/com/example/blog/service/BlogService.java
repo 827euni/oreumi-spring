@@ -29,4 +29,8 @@ public class BlogService {
         Optional<Article> article = blogRepository.findById(id);
         return article.orElse(null);
     }
+
+    public void delete(Long id) {
+        blogRepository.deleteById(id); // JPA 제공 기능
+    }
 }

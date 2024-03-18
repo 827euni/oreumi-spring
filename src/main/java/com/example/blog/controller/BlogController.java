@@ -27,7 +27,7 @@ public class BlogController {
     }
 
     @GetMapping("/api/articles")
-    public ResponseEntity<List<ArticleResponse>> findAllArticles() {
+    public ResponseEntity<List<ArticleResponse>> findAllArticles() { //GET에 요청에 대한 으답으로 ArticleResponse 객체를 반환하기 위함
         List<ArticleResponse> list = blogService.findAll()
                 .stream().map(ArticleResponse::new)
                 .toList();
@@ -43,6 +43,13 @@ public class BlogController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(article.toResponse());
+    }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) { // DELETE 요청에 대해 별다른 데이터를 반환할 필요가 없으므로 VOID
+        blogService.delete(id); //@PathVariable을 선언해야 요청으로 들어온 id 값을 받아올 수 있음.
+
+        return ResponseEntity.ok().build(); // 상태보드 200(OK)를 가지는 ResponseEntity 객체를 만듬
     }
 
 }
