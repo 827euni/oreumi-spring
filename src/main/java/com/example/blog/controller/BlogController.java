@@ -1,4 +1,5 @@
 package com.example.blog.controller;
+import com.example.blog.dto.UpdateArticleRequest;
 import com.example.blog.service.BlogService;
 import com.example.blog.domain.Article;
 import com.example.blog.domain.ArticleResponse;
@@ -18,7 +19,7 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    // HTTP요청이 'POST /api/articles' 경로일 때 해당 메소드로 매핑
+    // HTTP요청이 'POST/api/articles' 경로일 때 해당 메소드로 매핑
     @PostMapping("/api/articles")   // json  { "title": "제목", "content": "내용"}
     public ResponseEntity<ArticleResponse> addArticle(@RequestBody AddArticleRequest request) {
         Article article = blogService.save(request);
@@ -50,6 +51,20 @@ public class BlogController {
         blogService.delete(id); //@PathVariable을 선언해야 요청으로 들어온 id 값을 받아올 수 있음.
 
         return ResponseEntity.ok().build(); // 상태보드 200(OK)를 가지는 ResponseEntity 객체를 만듬
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleRequest request){
+    /* @RequestBody는 요청 본문에 있는 데이터를 객체를 매핑하기 위한 DTO 클래스
+    요청 본문에 포함되어있는 데이터를 UpdateArticleRequest 객체로 자동으로 변환하여 사용할 수 있음
+
+    -> updateArticle 메서드의 매개변수로 @PathVariable Long id와 @RequestBody UpdateArticleRequest request를 사용하여
+    클라이언트로부터 전달되는 경로 변수와 요청 본문을 받아와서 해당 값을 사용하여 블로그 글을 업데이트하고,
+    업데이트된 글을 ResponseEntity 객체에 담아서 반환함
+    */
+        Article updatedArticle = blogService.update(id, request);
+        return ResponseEntity.status(HttpStatus.OK) // 성공하면 HTTP 상태 코드를 200으로 설정하여 클라이언트에게 반환
+                .body(updatedArticle); // 응답 본문에 updatedArticle 객체를 담아서 반환
     }
 
 }
