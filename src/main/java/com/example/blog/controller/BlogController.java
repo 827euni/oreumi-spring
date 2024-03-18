@@ -6,10 +6,7 @@ import com.example.blog.domain.ModifyArticleRequest;
 import com.example.blog.dto.AddArticleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,4 +34,15 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(list);
     }
+
+    @GetMapping("/api/articles/{id}")
+    public ResponseEntity<ArticleResponse> findOne(@PathVariable Long id) {
+        Article article = blogService.findById(id);
+        if (article == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(article.toResponse());
+    }
+
 }
