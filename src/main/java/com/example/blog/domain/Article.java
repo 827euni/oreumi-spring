@@ -1,13 +1,18 @@
 package com.example.blog.domain;
 
+import com.example.blog.dto.AddArticleRequest;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 @Getter
 @Entity
 @NoArgsConstructor
+@Data
+@AllArgsConstructor
+@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +25,15 @@ public class Article {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Builder
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public ArticleResponse toResponse() {
+        return ArticleResponse.builder()
+                .title(title)
+                .content(content)
+                .build();
     }
 }

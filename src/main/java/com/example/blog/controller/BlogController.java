@@ -1,0 +1,28 @@
+package com.example.blog.controller;
+import com.example.blog.service.BlogService;
+import com.example.blog.domain.Article;
+import com.example.blog.domain.ArticleResponse;
+import com.example.blog.domain.ModifyArticleRequest;
+import com.example.blog.dto.AddArticleRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController        // 객체 데이터를 JSON 형식으로 변환함.
+public class BlogController {
+    private BlogService blogService;
+
+    public BlogController(BlogService blogService) {
+        this.blogService = blogService;
+    }
+
+    // HTTP요청이 'POST /api/articles' 경로일 때 해당 메소드로 매핑
+    @PostMapping("/api/articles")   // json  { "title": "제목", "content": "내용"}
+    public ResponseEntity<ArticleResponse> addArticle(@RequestBody AddArticleRequest request) {
+        Article article = blogService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(article.toResponse());    // json { "title": "제목", "content": "내용"}
+    }
+}
