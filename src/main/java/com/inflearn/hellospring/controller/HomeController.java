@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/") // localHost 8080으로 들어오면 이게 호출됨.
     public String home(){
-        return "home";
+        return "hello/home";
     }
 }
