@@ -36,6 +36,7 @@ public class Article {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
