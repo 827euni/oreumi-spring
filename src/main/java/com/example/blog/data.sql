@@ -15,8 +15,10 @@ CREATE TABLE users (
 CREATE TABLE comment (
                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
                          article_id BIGINT NOT NULL,
-                         body VARCHAR(255) NOT NULL,
+                         content VARCHAR(255) NOT NULL,
                          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                          FOREIGN KEY (article_id) REFERENCES article(id)
 );
+
 
