@@ -29,7 +29,7 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/login", "/signup", "/user").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(auth -> auth.loginPage("/login")     // 폼 기반 로그인 설정
-                        .defaultSuccessUrl("/articles"))
+                        .defaultSuccessUrl("/articleList"))
                 .logout(auth -> auth.logoutSuccessUrl("/login") // 로그아웃 설정
                         .invalidateHttpSession(true))
                 .csrf(auth -> auth.disable());                  // csrf 비활성화
